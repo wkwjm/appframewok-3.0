@@ -1,0 +1,77 @@
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<!--标准mui.css-->
+	<link rel="stylesheet" href="../../css/mui.min.css">
+	<!--App自定义的css-->
+	<style type="text/css">
+			.mui-btn-block {
+				display: block;
+				width: 100%;
+				margin-bottom: 0px;
+				padding: 6px 0;
+				margin: 0 auto;
+			}
+		</style>
+
+</head>
+
+<body>
+<header class="mui-bar mui-bar-nav">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	<h1 class="mui-title">地图导航</h1>
+</header>
+<div class="mui-content">
+	<div class="mui-content-padded">
+		<p>注意：使用定位导航等功能时，如果修改了框架项目中的包名， 需要重新去高德地图开放平台申请key值，或者联系框架开发人员。
+		</p>
+		<p>导航功能中，需要传入起始点，终点的经纬度，以及导航方式五个参数，例如：</p>
+		<p>起始点的纬度:"startlatitude":"31.827226"</p>
+		<p>起始点的经度:"startlongitude":"117.138888"</p>
+		<p>终点的纬度:"endlatitude":"31.844341"</p>
+		<p>终点的经度:"endlongitude":"117.136595"</p>
+		<p>导航方式:驾车"Routetype":"0"</p>
+		<button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="getLocInfo">定位</button>
+		<button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="navigation" style="margin-top: 10px;">导航</button>
+		<!--定位信息展示-->
+		<p id="locInfo"></p>
+	</div>
+</div>
+<script src="../../js/mui.min.js"></script>
+<script src="../../js/bridge.js"></script>
+<script>
+			mui.init({
+				swipeBack: false
+			});
+			Mplat.init();
+			//创建数据
+			document.getElementById("getLocInfo").addEventListener('tap', function() {
+				Mplat.getLocationInfo(function(data) {
+					mui.toast(data);
+					document.getElementById("locInfo").innerHTML = data;
+				})
+			});
+
+			document.getElementById("navigation").addEventListener('tap', function() {
+				Mplat.Navigation({
+					params: {
+						"startlatitude": "31.827226",
+						"startlongitude": "117.138888",
+						"endlatitude": "31.844341",
+						"endlongitude": "117.136595",
+						"Routetype": "0"
+					},
+					callback: function(data){
+						mui.toast(data);
+					}
+				});
+			})
+		</script>
+</body>
+
+</html>

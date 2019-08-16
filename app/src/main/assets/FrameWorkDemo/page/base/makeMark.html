@@ -1,0 +1,108 @@
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<!--App自定义的css-->
+		<style type="text/css">
+			.showImg {
+				width: 200px;
+				height: 260px;
+			}
+			
+			* {
+				-webkit-box-sizing: border-box;
+				box-sizing: border-box;
+				-webkit-user-select: auto;
+				outline: 0;
+				-webkit-tap-highlight-color: transparent;
+				-webkit-tap-highlight-color: transparent;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">打水印</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<p>这是给照片打上水印的示例，请先拍照，并且将照片路径复制粘贴到水印的输入框中，输入水印内容，然后点击拍照按钮</p>
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<input type="text" class="mui-input-clear" id = "path" placeholder="请输入照片路径">
+					</div>
+					<div class="mui-input-row">
+						<input type="text" class="mui-input-clear" id="markText" placeholder="请输入水印内容">
+					</div>
+				</form>
+				<div onclick="takePhoto()" style="text-align: center;">
+					<button type="button" class="mui-btn mui-btn-blue">打水印</button>
+				</div>
+				<!--显示照片-->
+				<div style="text-align: center;margin: 1em;display: none;" id="showPhoto">
+					<img id="photo" src="" class="showImg" />
+				</div>
+				<!--显示照片信息-->
+				<div style="margin: 1em;display: block;" id="photoInfo">
+					<p id="photoName"></p>
+					<p id="photoPath" style="-webkit-user-select"></p>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/bridge.js"></script>
+	<script src="../../plugins/zepto.min.js"></script>
+	<script>
+		mui.init({
+			swipeBack: false
+		});
+		Mplat.init();
+
+		/**
+		 * 拍照
+		 * @param {Object} params(参数) callback（回调函数，返回data ）
+		 */
+		function takePhoto() {
+			var path = $("#path").val();
+			var markText = $("#markText").val();
+			if(!path) {
+				mui.toast("请输入照片路径");
+			} else {
+				Mplat.makeMark({ //Mplat. makeMark方法名
+					params: { //入参
+						"photoPath": path,
+						"waterMarkInfo": markText
+					},
+					callback: function(data) { //回调函数 ，data是从原生中返回的照片信息    
+						data = JSON.parse(data);
+						showImg(data);
+					}
+				});
+
+			}
+		}
+		//显示照片
+		function showImg(data) {
+			if(data.data.photoPath) {
+				$("#showPhoto").show();
+				$("#photoInfo").show();
+				$("#photo").attr("src", data.data.photoPath);
+				$("#photoName").text("照片名称：" + data.data.photoName);
+				$("#photoPath").text("照片路径：" + data.data.photoPath);
+
+			} else {
+				mui.toast("未获取到照片路径，请再试一次");
+			}
+		}
+	</script>
+
+</html>

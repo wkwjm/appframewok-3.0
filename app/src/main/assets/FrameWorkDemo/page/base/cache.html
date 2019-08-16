@@ -1,0 +1,127 @@
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<!--App自定义的css-->
+		<style type="text/css">
+			.cameraImg {
+				width: 65px;
+				height: 65px;
+			}
+			
+			.showImg {
+				width: 200px;
+				height: 260px;
+			}
+			
+			ul li {
+				list-style-type: none;
+			}
+		</style>
+
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">轻量级数据</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<p>该功能以键值队的形式存储一些轻量级的数据，包括创建数据，读取数据，删除数据等
+				</p>
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>key</label>
+						<input id="key" type="text" class="mui-input-clear" placeholder="请输入存储数据的key">
+					</div>
+					<div class="mui-input-row">
+						<label>value</label>
+						<input id="val" type="text" class="mui-input-clear" placeholder="请输入具体值">
+					</div>
+				</form>
+				<div style="margin-top: 5px;">
+					<button type="button" class="mui-btn mui-btn-primary" id="setSpference">创建数据</button>
+					<button type="button" class="mui-btn mui-btn-primary" id="getSpference">读取数据</button>
+					<button type="button" class="mui-btn mui-btn-primary" id="clearSpference">删除数据</button>
+				</div>
+				<!--数据库操作信息提示-->
+				<div id="showReturnMsg">
+				</div>
+			</div>
+		</div>
+
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/bridge.js"></script>
+		<script src="../../plugins/template.js"></script>
+		<script src="../../plugins/zepto.min.js"></script>
+		<script>
+			mui.init({
+				swipeBack: false
+			});
+			Mplat.init();
+			//创建数据
+			document.getElementById("setSpference").addEventListener('tap', function() {
+				var key = $("#key").val();
+				var val = $("#val").val();
+				if(!(key && val)) {
+					mui.toast("请输入数据");
+					return;
+				}
+				Mplat.setSpference({
+					params: {
+						"key": key,
+						"value": val
+					},
+					callback: function(data) {
+						mui.toast(data);
+					}
+				});
+			});
+			//读取数据
+			document.getElementById("getSpference").addEventListener('tap', function() {
+				var key = $("#key").val();
+				if(!key) {
+					mui.toast("请输入key");
+					return;
+				}
+				Mplat.getSpference({
+					params: {
+						"key": key
+					},
+					callback: function(data) {
+						mui.toast(data);
+					}
+				});
+			});
+
+			//删除数据
+			document.getElementById("clearSpference").addEventListener('tap', function() {
+				var key = $("#key").val();
+				if(!key) {
+					mui.toast("请输入key");
+					return;
+				}
+				Mplat.clearSpference({
+					params: {
+						key :key
+					},
+					callback: function(data) {
+						mui.toast(data);
+					}
+				});
+
+			});
+			
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,80 @@
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<!--标准mui.css-->
+	<link rel="stylesheet" href="../../css/mui.min.css">
+	<!--App自定义的css-->
+	<style type="text/css">
+			.mui-btn-block {
+				display: block;
+				width: 100%;
+				margin-bottom: 0px;
+				padding: 6px 0;
+				margin: 0 auto;
+			}
+		</style>
+</head>
+
+<body>
+<header class="mui-bar mui-bar-nav">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	<h1 class="mui-title">应用管理</h1>
+</header>
+<div class="mui-content">
+	<div class="mui-content-padded">
+		<p>以下功能都以自身APP为例</p>
+		<button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="info">应用信息</button>
+		<button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="finish" style="margin-top: 10px;">关闭应用</button>
+		<button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="unload" style="margin-top: 10px;">卸载应用</button>
+	</div>
+</div>
+<script src="../../js/mui.min.js"></script>
+<script src="../../js/bridge.js"></script>
+<script>
+			mui.init({
+				swipeBack: false
+			});
+			Mplat.init();
+			document.getElementById("info").addEventListener('tap', function() {
+				Mplat.getPackageInfobyname({
+					params: {
+						"packagename": "com.ustcinfo.abilityframwork"
+					},
+					callback: function(data) {
+						mui.toast(data);
+					}
+				});
+			});
+
+			document.getElementById("finish").addEventListener('tap', function() {
+				Mplat.closeNewWebView({
+					params: {
+						"params": "哈哈",
+						"jsMethodName": "test"
+					},
+					callback: function(data) {
+						mui.toast(data);
+					}
+				});
+			});
+
+			document.getElementById("unload").addEventListener('tap', function() {
+				Mplat.unloadApp({
+					params: {
+						"packageName": "com.ustcinfo.abilityframwork"
+					},
+					callback: function(data) {
+//						mui.toast(data);
+					}
+				});
+
+			});
+		</script>
+</body>
+
+</html>

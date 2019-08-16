@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--//h5起始页面路径-->
+    <string id="launch_path">FrameWorkDemo/calc-black-v5.0.html</string>
+    <!--<string id="launch_path"> https://yxyy.realnameonline.cn:20009/edcreg-web/videorealname/videorealnameStandard/sc-front.html?transactionId=108520190423161309439586&sourceCode=230030</string>-->
+
+</resources>
